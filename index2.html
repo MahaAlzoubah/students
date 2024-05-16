@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الانسحاب - أ. لطيفه الدوسري</title>
+    <style>
+        body {
+            margin-top: 50px;
+            background-color: #f0f8ff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            color: #cb2fb4;
+        }
+        button {
+            background-color: #cb2f2f;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            cursor: pointer;
+        }
+        #container {
+            width: 500px;
+            height: 500px;
+            border: 2px solid #000;
+            position: relative;
+            margin: 20px auto;
+        }
+        #butterfly {
+            width: 70px;
+            height: 50px;
+            background-image: url('https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/7926670/butterfly-clipart-md.png');
+            background-size: cover;
+            position: absolute;
+            cursor: grab;
+        }
+        #coordinates {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #333;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        @media (max-width: 600px) {
+            body {
+                margin-top: 20px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            #container {
+                width: 100%;
+                height: 300px;
+            }
+            canvas {
+                width: 100%;
+                height: 300px;
+            }
+            #butterfly {
+                width: 50px;
+                height: 35px;
+            }
+            #coordinates {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>درس الانسحاب</h1>
+    <div id="container">
+        <canvas id="gridCanvas" width="500" height="500"></canvas>
+        <div id="butterfly"></div>
+    </div>
+    <div id="coordinates">الإحداثيات: (x: 11, y: 11)</div>
+    <h3>أ. لطيفه الدوسري</h3>
+    <button onclick="window.location.href='index.html'">الدرس السابق</button>
+
+    <script>
+        const container = document.getElementById('container');
+        const butterfly = document.getElementById('butterfly');
+        const coordinates = document.getElementById('coordinates');
+        const gridCanvas = document.getElementById('gridCanvas');
+        const ctx = gridCanvas.getContext('2d');
+        let offsetX, offsetY;
+
+        function drawGrid() {
+            const step = 25; // 500px / 20 = 25px per step
+            ctx.strokeStyle = '#aaa';
+            ctx.lineWidth = 1;
+            ctx.font = "12px Arial";
+            ctx.fillStyle = "#000";
+
+            for (let x = 0; x <= gridCanvas.width; x += step) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, gridCanvas.height);
+                ctx.stroke();
+                if (x !== gridCanvas.width / 2) {
+                    ctx.fillText(x / step + 1, x, gridCanvas.height / 2 + 15);
+                }
+            }
+
+            for (let y = 0; y <= gridCanvas.height; y += step) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(gridCanvas.width, y);
+                ctx.stroke();
+                if (y !== gridCanvas.height / 2) {
+                    ctx.fillText(21 - y / step, gridCanvas.width / 2 + 5, y + 5);
+                }
+            }
+
+            // Draw X and Y axis
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+
+            ctx.beginPath();
+            ctx.moveTo(gridCanvas.width / 2, 0);
+            ctx.lineTo(gridCanvas.width / 2, gridCanvas.height);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(0, gridCanvas.height / 2);
+            ctx.lineTo(gridCanvas.width, gridCanvas.height / 2);
+            ctx.stroke();
+        }
+
+        function updateCoordinates() {
+            const x = Math.round(butterfly.offsetLeft / 25) + 1;
+            const y = 21 - Math.round(butterfly.offsetTop / 25);
+            coordinates.innerText = `الإحداثيات: (x: ${x}, y: ${y})`;
+        }
+
+        butterfly.style.left = `${(container.clientWidth - butterfly.clientWidth) / 2}px`;
+        butterfly.style.top = `${(container.clientHeight - butterfly.clientHeight) / 2}px`;
+        updateCoordinates();
+
+        butterfly.addEventListener('mousedown', startDrag);
+        butterfly.addEventListener('touchstart', startDrag);
+
+        function startDrag(e) {
+            e.preventDefault();
+            const isTouch = e.type === 'touchstart';
+            const event = isTouch ? e.touches[0] : e;
+
+            offsetX = event.clientX - butterfly.offsetLeft;
+            offsetY = event.clientY - butterfly.offsetTop;
+            butterfly.style.cursor = 'grabbing';
+
+            document.addEventListener(isTouch ? 'touchmove' : 'mousemove', drag);
+            document.addEventListener(isTouch ? 'touchend' : 'mouseup', stopDrag);
+        }
+
+        function drag(e) {
+            e.preventDefault();
+            const isTouch = e.type === 'touchmove';
+            const event = isTouch ? e.touches[0] : e;
+
+            const x = event.clientX - offsetX;
+            const y = event.clientY - offsetY;
+            if (x >= 0 && x <= container.clientWidth - butterfly.clientWidth) {
+                butterfly.style.left = `${x}px`;
+            }
+            if (y >= 0 && y <= container.clientHeight - butterfly.clientHeight) {
+                butterfly.style.top = `${y}px`;
+            }
+            updateCoordinates();
+        }
+
+        function stopDrag(e) {
+            const isTouch = e.type === 'touchend';
+            butterfly.style.cursor = 'grab';
+            document.removeEventListener(isTouch ? 'touchmove' : 'mousemove', drag);
+            document.removeEventListener(isTouch ? 'touchend' : 'mouseup', stopDrag);
+        }
+
+        window.onload = () => {
+            drawGrid();
+        };
+    </script>
+</body>
+</html>
