@@ -83,7 +83,7 @@
         <canvas id="gridCanvas" width="500" height="500"></canvas>
         <div id="butterfly"></div>
     </div>
-    <div id="coordinates">الإحداثيات: (x: 11, y: 11)</div>
+    <div id="coordinates">الإحداثيات: (x: 0, y: 0)</div>
     <h3>أ. لطيفه الدوسري</h3>
     <button onclick="window.location.href='index.html'">الدرس السابق</button>
 
@@ -97,28 +97,31 @@
 
         function drawGrid() {
             const step = 25; // 500px / 20 = 25px per step
+            const halfSteps = 10;
             ctx.strokeStyle = '#aaa';
             ctx.lineWidth = 1;
             ctx.font = "12px Arial";
             ctx.fillStyle = "#000";
 
-            for (let x = 0; x <= gridCanvas.width; x += step) {
+            for (let x = -halfSteps; x <= halfSteps; x++) {
+                const pixelX = (x + halfSteps) * step;
                 ctx.beginPath();
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, gridCanvas.height);
+                ctx.moveTo(pixelX, 0);
+                ctx.lineTo(pixelX, gridCanvas.height);
                 ctx.stroke();
-                if (x !== gridCanvas.width / 2) {
-                    ctx.fillText(x / step + 1, x, gridCanvas.height / 2 + 15);
+                if (x !== 0) {
+                    ctx.fillText(x, pixelX, gridCanvas.height / 2 + 15);
                 }
             }
 
-            for (let y = 0; y <= gridCanvas.height; y += step) {
+            for (let y = -halfSteps; y <= halfSteps; y++) {
+                const pixelY = (halfSteps - y) * step;
                 ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(gridCanvas.width, y);
+                ctx.moveTo(0, pixelY);
+                ctx.lineTo(gridCanvas.width, pixelY);
                 ctx.stroke();
-                if (y !== gridCanvas.height / 2) {
-                    ctx.fillText(21 - y / step, gridCanvas.width / 2 + 5, y + 5);
+                if (y !== 0) {
+                    ctx.fillText(y, gridCanvas.width / 2 + 5, pixelY + 5);
                 }
             }
 
@@ -138,8 +141,8 @@
         }
 
         function updateCoordinates() {
-            const x = Math.round(butterfly.offsetLeft / 25) + 1;
-            const y = 21 - Math.round(butterfly.offsetTop / 25);
+            const x = Math.round(butterfly.offsetLeft / 25) - 10;
+            const y = 10 - Math.round(butterfly.offsetTop / 25);
             coordinates.innerText = `الإحداثيات: (x: ${x}, y: ${y})`;
         }
 
