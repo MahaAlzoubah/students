@@ -48,6 +48,11 @@
             left: 0;
             z-index: -1;
         }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
         @media (max-width: 600px) {
             body {
                 margin-top: 20px;
@@ -85,7 +90,10 @@
     </div>
     <div id="coordinates">الإحداثيات: (x: 0, y: 0)</div>
     <h3>أ. لطيفه الدوسري</h3>
-    <button onclick="window.location.href='index.html'">الدرس السابق</button>
+    <div class="buttons">
+        <button onclick="window.location.href='index.html'">الدرس السابق</button>
+        <button onclick="window.location.href='q2.html'">الاختبار الأول</button>
+    </div>
 
     <script>
         const container = document.getElementById('container');

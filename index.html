@@ -21,6 +21,7 @@
             padding: 15px 32px;
             text-align: center;
             margin-top: 20px;
+            cursor: pointer;
         }
         canvas {
             border: 2px solid #000;
@@ -28,27 +29,35 @@
             display: block;
             margin: 20px auto;
         }
-          /* Mobile View */
-  @media (max-width: 600px) {
-      body {
-          margin-top: 100px;
-      }
-      h1 {
-          font-size: 16px;
-      }
-      canvas {
-          width: 80%;
-          height: auto;
-          margin: 10px auto;
-      }
-  }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        /* Mobile View */
+        @media (max-width: 600px) {
+            body {
+                margin-top: 100px;
+            }
+            h1 {
+                font-size: 16px;
+            }
+            canvas {
+                width: 80%;
+                height: auto;
+                margin: 10px auto;
+            }
+        }
     </style>
 </head>
 <body>
     <h1>درس الانعكاس</h1>
     <canvas id="reflectionCanvas" width="500" height="500"></canvas>
     <h3>أ. لطيفه الدوسري</h3>
-    <button onclick="window.location.href='index2.html'">الدرس الثاني</button>
+    <div class="buttons">
+        <button onclick="window.location.href='index2.html'">الدرس الثاني</button>
+        <button onclick="window.location.href='q1.html'">الاختبار الأول</button>
+    </div>
 
     <script>
         const canvas = document.getElementById('reflectionCanvas');

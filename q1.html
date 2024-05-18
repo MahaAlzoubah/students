@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاختبار الأول - أ. لطيفه الدوسري</title>
+    <style>
+        body {
+            margin-top: 50px;
+            background-color: #f7f0ff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            color: #de0fbf;
+        }
+        button {
+            background-color: #2f51cb;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .choices button {
+            margin: 10px;
+        }
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        /* Mobile View */
+        @media (max-width: 600px) {
+            body {
+                margin-top: 100px;
+            }
+            h1 {
+                font-size: 16px;
+            }
+            img {
+                width: 80%;
+                height: auto;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>الاختبار الأول</h1>
+    <img src="q1.jpeg" alt="Question Image">
+    <div class="choices">
+        <button onclick="checkAnswer(1)">1</button>
+        <button onclick="checkAnswer(2)">2</button>
+        <button onclick="checkAnswer(3)">3</button>
+    </div>
+    <h3>أ. لطيفه الدوسري</h3>
+    <div class="buttons">
+        <button onclick="window.location.href='index.html'">العودة إلى الدرس</button>
+    </div>
+
+    <audio id="clapSound" src="clap.mp3"></audio>
+
+    <script>
+        function checkAnswer(answer) {
+            const clapSound = document.getElementById('clapSound');
+            if (answer === 1) {
+                clapSound.play();
+                alert('! احسنت إجابتك صحيحة');
+            } else {
+                alert('حاول مرة أخرى');
+            }
+        }
+    </script>
+</body>
+</html>
