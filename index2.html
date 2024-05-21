@@ -22,6 +22,10 @@
             text-align: center;
             cursor: pointer;
         }
+        a{
+            text-decoration: none;
+            color: #f0f8ff;
+        }
         #container {
             width: 500px;
             height: 500px;
@@ -29,11 +33,11 @@
             position: relative;
             margin: 20px auto;
         }
-        #butterfly {
-            width: 70px;
-            height: 50px;
-            background-image: url('https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/7926670/butterfly-clipart-md.png');
-            background-size: cover;
+        #circle {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
             position: absolute;
             cursor: grab;
         }
@@ -72,8 +76,8 @@
                 width: 100%;
                 height: 300px;
             }
-            #butterfly {
-                width: 50px;
+            #circle {
+                width: 35px;
                 height: 35px;
             }
             #coordinates {
@@ -86,18 +90,19 @@
     <h1>درس الانسحاب</h1>
     <div id="container">
         <canvas id="gridCanvas" width="500" height="500"></canvas>
-        <div id="butterfly"></div>
+        <div id="circle"></div>
     </div>
     <div id="coordinates">الإحداثيات: (x: 0, y: 0)</div>
     <h3>أ. لطيفه الدوسري</h3>
     <div class="buttons">
         <button onclick="window.location.href='index.html'">الدرس السابق</button>
         <button onclick="window.location.href='q2.html'">الاختبار الأول</button>
+        <button><a href="https://youtu.be/Owkst8iXWxs?feature=shared">شرح المفهوم</a></button>
     </div>
 
     <script>
         const container = document.getElementById('container');
-        const butterfly = document.getElementById('butterfly');
+        const circle = document.getElementById('circle');
         const coordinates = document.getElementById('coordinates');
         const gridCanvas = document.getElementById('gridCanvas');
         const ctx = gridCanvas.getContext('2d');
@@ -149,26 +154,26 @@
         }
 
         function updateCoordinates() {
-            const x = Math.round(butterfly.offsetLeft / 25) - 10;
-            const y = 10 - Math.round(butterfly.offsetTop / 25);
+            const x = Math.round(circle.offsetLeft / 25) - 10;
+            const y = 10 - Math.round(circle.offsetTop / 25);
             coordinates.innerText = `الإحداثيات: (x: ${x}, y: ${y})`;
         }
 
-        butterfly.style.left = `${(container.clientWidth - butterfly.clientWidth) / 2}px`;
-        butterfly.style.top = `${(container.clientHeight - butterfly.clientHeight) / 2}px`;
+        circle.style.left = `${(container.clientWidth - circle.clientWidth) / 2}px`;
+        circle.style.top = `${(container.clientHeight - circle.clientHeight) / 2}px`;
         updateCoordinates();
 
-        butterfly.addEventListener('mousedown', startDrag);
-        butterfly.addEventListener('touchstart', startDrag);
+        circle.addEventListener('mousedown', startDrag);
+        circle.addEventListener('touchstart', startDrag);
 
         function startDrag(e) {
             e.preventDefault();
             const isTouch = e.type === 'touchstart';
             const event = isTouch ? e.touches[0] : e;
 
-            offsetX = event.clientX - butterfly.offsetLeft;
-            offsetY = event.clientY - butterfly.offsetTop;
-            butterfly.style.cursor = 'grabbing';
+            offsetX = event.clientX - circle.offsetLeft;
+            offsetY = event.clientY - circle.offsetTop;
+            circle.style.cursor = 'grabbing';
 
             document.addEventListener(isTouch ? 'touchmove' : 'mousemove', drag);
             document.addEventListener(isTouch ? 'touchend' : 'mouseup', stopDrag);
@@ -181,18 +186,18 @@
 
             const x = event.clientX - offsetX;
             const y = event.clientY - offsetY;
-            if (x >= 0 && x <= container.clientWidth - butterfly.clientWidth) {
-                butterfly.style.left = `${x}px`;
+            if (x >= 0 && x <= container.clientWidth - circle.clientWidth) {
+                circle.style.left = `${x}px`;
             }
-            if (y >= 0 && y <= container.clientHeight - butterfly.clientHeight) {
-                butterfly.style.top = `${y}px`;
+            if (y >= 0 && y <= container.clientHeight - circle.clientHeight) {
+                circle.style.top = `${y}px`;
             }
             updateCoordinates();
         }
 
         function stopDrag(e) {
             const isTouch = e.type === 'touchend';
-            butterfly.style.cursor = 'grab';
+            circle.style.cursor = 'grab';
             document.removeEventListener(isTouch ? 'touchmove' : 'mousemove', drag);
             document.removeEventListener(isTouch ? 'touchend' : 'mouseup', stopDrag);
         }
